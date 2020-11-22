@@ -39,7 +39,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
                     i--;
             }
 
-            int rndBlockCount = rnd.Next(5, 12);
+            int rndBlockCount = rnd.Next(3, 8);
 
             for (int i = 0; i < rndBlockCount; i++)
             {

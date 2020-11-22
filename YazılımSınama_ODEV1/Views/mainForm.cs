@@ -38,9 +38,7 @@ namespace YazılımSınama_ODEV1
 
         private void Board_MouseClick(object sender, MouseEventArgs e)
         {
-            MessageBox.Show("Cell chosen: (" +
-                     Board.GetRow((Control)sender) + ", " +
-                     Board.GetColumn((Control)sender) + ")");
+           
         }
 
         public static void SetDoubleBuffered(Control c)
@@ -52,5 +50,7 @@ namespace YazılımSınama_ODEV1
             System.Reflection.BindingFlags.Instance);
             aProp.SetValue(c, true, null);
         }
+
+     
     }
 }

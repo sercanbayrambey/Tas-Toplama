@@ -77,7 +77,6 @@ namespace YazılımSınama_ODEV1.Business.Concrete
                 for (int j = 0; j < MapArray.GetLength(1); j++)
                 {
                     int mapObjectValue = MapArray[i, j];
-                    PictureBox pb;
                     if (e.Column == j && e.Row == i)
                     {
                         switch (mapObjectValue)
@@ -86,12 +85,17 @@ namespace YazılımSınama_ODEV1.Business.Concrete
                                 break;
                             case (MapObjectType.Block):
                                 e.Graphics.DrawImage(Properties.Resources.block, e.CellBounds);
+                             
                                 break;
                             case (MapObjectType.MainStone):
                                 e.Graphics.DrawImage(Properties.Resources.bilye_red, e.CellBounds);
                                 break;
                             case (MapObjectType.Stone):
                                 e.Graphics.DrawImage(Properties.Resources.bilye_blue, e.CellBounds);
+                                StringFormat sf = new StringFormat();
+                                sf.LineAlignment = StringAlignment.Center;
+                                sf.Alignment = StringAlignment.Center;
+                                e.Graphics.DrawString("5", new Font("Times New Roman", 35, FontStyle.Bold), Brushes.White, e.CellBounds.X + 65, e.CellBounds.Y + 40, sf);
                                 break;
                         }
                     }
