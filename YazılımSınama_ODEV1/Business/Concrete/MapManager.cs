@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using YazılımSınama_ODEV1.Business.Static;
+using YazılımSınama_ODEV1.Entities;
 
 namespace YazılımSınama_ODEV1.Business.Concrete
 {
@@ -12,10 +13,10 @@ namespace YazılımSınama_ODEV1.Business.Concrete
         public int Height { get; }
         public int Width { get; }
         public int CellSize { get; }
-        public int[,] MapArray { get; set; }
+        public MapObject[,] MapArray { get; set; }
         private TableLayoutPanel _tableLayoutPanel;
 
-        public MapManager(int[,] mapArray)
+        public MapManager(MapObject[,] mapArray)
         {
             Height = mapArray.GetLength(0);
             Width = mapArray.GetLength(1);
@@ -33,34 +34,6 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             tableLayoutPanel.RowCount = Height;
             tableLayoutPanel.Controls.Clear();
 
-           /* for (int i = 0; i < MapArray.GetLength(0); i++)
-            {
-                for (int j = 0; j < MapArray.GetLength(1); j++)
-                {
-                    int mapObjectValue = MapArray[i, j];
-                    PictureBox pb;
-                   
-                    switch (mapObjectValue)
-                    {
-                        case (MapObjectType.Empty):
-                            break;
-                        case (MapObjectType.Block):
-                            tableLayoutPanel.Controls.Add(pb = new PictureBox { Image = Properties.Resources.block, SizeMode = PictureBoxSizeMode.StretchImage, BackColor = Color.Transparent, Anchor = AnchorStyles.None }, j, i);
-                            pb.Click += new EventHandler(pb_Click);
-                            break;
-                        case (MapObjectType.MainStone):
-                            tableLayoutPanel.Controls.Add(pb = new PictureBox { Image = Properties.Resources.bilye_red, SizeMode = PictureBoxSizeMode.StretchImage, BackColor = Color.Transparent, Anchor = AnchorStyles.None }, j, i);
-                            pb.Click += new EventHandler(pb_Click);
-                            break;
-                        case (MapObjectType.Stone):
-                            tableLayoutPanel.Controls.Add(pb=new PictureBox { Image = Properties.Resources.bilye_blue, SizeMode = PictureBoxSizeMode.StretchImage, BackColor = Color.Transparent, Anchor = AnchorStyles.None }, j, i);
-                            pb.Click += new EventHandler(pb_Click);
-                            break;
-                    }
-                    
-
-                }
-            }*/
 
         }
 
@@ -76,7 +49,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             {
                 for (int j = 0; j < MapArray.GetLength(1); j++)
                 {
-                    int mapObjectValue = MapArray[i, j];
+                    int mapObjectValue = MapArray[i, j].MapObjectType;
                     if (e.Column == j && e.Row == i)
                     {
                         switch (mapObjectValue)
@@ -95,7 +68,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
                                 StringFormat sf = new StringFormat();
                                 sf.LineAlignment = StringAlignment.Center;
                                 sf.Alignment = StringAlignment.Center;
-                                e.Graphics.DrawString("5", new Font("Times New Roman", 35, FontStyle.Bold), Brushes.White, e.CellBounds.X + 65, e.CellBounds.Y + 40, sf);
+                                e.Graphics.DrawString(MapArray[i,j].ShortestDistanceToMainStone.ToString(), new Font("Times New Roman", 35, FontStyle.Bold), Brushes.White, e.CellBounds.X + 65, e.CellBounds.Y + 40, sf);
                                 break;
                         }
                     }
@@ -105,11 +78,6 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             }
 
         }
-/*
-        private void pb_Click(object sender, EventArgs e)
-            {
-                var pb = (PictureBox)sender;
-                pb.BackColor = Color.Gray;
-            }*/
+
     }
 }

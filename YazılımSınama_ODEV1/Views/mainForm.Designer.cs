@@ -59,15 +59,16 @@
             this.Board.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 12.5F));
             this.Board.Size = new System.Drawing.Size(1049, 625);
             this.Board.TabIndex = 1;
+            this.Board.Click += new System.EventHandler(this.Board_Click);
             this.Board.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Board_MouseClick);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1152, 91);
+            this.button1.Location = new System.Drawing.Point(1088, 12);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(141, 86);
             this.button1.TabIndex = 2;
-            this.button1.Text = "button1";
+            this.button1.Text = "Generate New Level";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 

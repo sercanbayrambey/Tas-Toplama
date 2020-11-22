@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using YazılımSınama_ODEV1.Business.Static;
+using YazılımSınama_ODEV1.Entities;
 
 namespace YazılımSınama_ODEV1.Business.Concrete
 {
@@ -9,32 +10,32 @@ namespace YazılımSınama_ODEV1.Business.Concrete
     {
         public int Height { get;}
         public int Width { get;}
-        public int[,] MapArray { get; set; }
-
-        public int[,] GenerateRandomLevel(int stoneCount, int height, int width)
+        public MapObject[,] GenerateRandomLevel(int stoneCount, int height, int width)
         {
 
 
-            int[,] mapArray = new int[height,width];
-
+            MapObject[,] mapArray = new MapObject[height,width];
 
             Random rnd = new Random();
             for(int i = 0; i < mapArray.GetLength(0); i++)
             {
                 for (int j = 0; j < mapArray.GetLength(1); j++)
                 {
-                    mapArray[i, j] = MapObjectType.Empty;
+                    mapArray[i, j] = new MapObject();
                 }
             }
            
-            mapArray[rnd.Next(0, mapArray.GetLength(0)), rnd.Next(0, mapArray.GetLength(1))] = MapObjectType.MainStone;
+            mapArray[rnd.Next(0, mapArray.GetLength(0)), rnd.Next(0, mapArray.GetLength(1))].MapObjectType = MapObjectType.MainStone;
 
             for (int i = 0; i < stoneCount; i++)
             {
                 int rndX = rnd.Next(0, mapArray.GetLength(0));
                 int rndY = rnd.Next(0, mapArray.GetLength(1));
-                if (mapArray[rndY, rndX] == MapObjectType.Empty)
-                    mapArray[rndY, rndX] = MapObjectType.Stone;
+                if (mapArray[rndY, rndX].MapObjectType == MapObjectType.Empty)
+                {
+                    mapArray[rndY, rndX].MapObjectType = MapObjectType.Stone;
+                    mapArray[rndY, rndX].ShortestDistanceToMainStone = rnd.Next(5, 10);
+                }
                 else
                     i--;
             }
@@ -45,16 +46,17 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             {
                 int rndX = rnd.Next(0, mapArray.GetLength(0));
                 int rndY = rnd.Next(0, mapArray.GetLength(1));
-                if (mapArray[rndY, rndX] == MapObjectType.Empty)
-                    mapArray[rndY, rndX] = MapObjectType.Block;
+                if (mapArray[rndY, rndX].MapObjectType == MapObjectType.Empty)
+                    mapArray[rndY, rndX].MapObjectType = MapObjectType.Block;
                 else
                     i--;
             }
 
-
-            MapArray = mapArray;
-
-            return MapArray;
+            return  mapArray;
         }
+
+
+
+
     }
 }

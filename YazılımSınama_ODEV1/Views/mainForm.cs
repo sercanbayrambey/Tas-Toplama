@@ -8,37 +8,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using YazılımSınama_ODEV1.Business.Concrete;
+using YazılımSınama_ODEV1.CustomComponents;
 
 namespace YazılımSınama_ODEV1
 {
     public partial class mainForm : Form
     {
-        private MapManager MapManager;
-        private LevelManager LevelManager;
+        private GameManager gameManager;
         public mainForm()
         {
             InitializeComponent();
-            LevelManager = new LevelManager();
-            MapManager = new MapManager(LevelManager.GenerateRandomLevel(3,8,8));
+            gameManager = new GameManager(3, 8, Board);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             SetDoubleBuffered(Board);
-            MapManager.DrawMap(Board);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MapManager = new MapManager(LevelManager.GenerateRandomLevel(3, 8, 8));
-            MapManager.DrawMap(Board);
+            gameManager = new GameManager(3, 8, Board);
         }
 
-    
+
 
         private void Board_MouseClick(object sender, MouseEventArgs e)
         {
-           
+
         }
 
         public static void SetDoubleBuffered(Control c)
@@ -51,6 +48,52 @@ namespace YazılımSınama_ODEV1
             aProp.SetValue(c, true, null);
         }
 
-     
+
+
+
+        Point? GetRowColIndex(TableLayoutPanel tlp, Point point)
+        {
+            if (point.X > tlp.Width || point.Y > tlp.Height)
+                return null;
+
+            int w = tlp.Width;
+            int h = tlp.Height;
+            int[] widths = tlp.GetColumnWidths();
+
+            int i;
+            for (i = widths.Length - 1; i >= 0 && point.X < w; i--)
+                w -= widths[i];
+            int col = i + 1;
+
+            int[] heights = tlp.GetRowHeights();
+            for (i = heights.Length - 1; i >= 0 && point.Y < h; i--)
+                h -= heights[i];
+
+            int row = i + 1;
+
+            return new Point(col, row);
+        }
+
+        private void Board_Click(object sender, EventArgs e)
+        {
+            var cellPos = GetRowColIndex(
+                        Board,
+                         Board.PointToClient(Cursor.Position));
+
+            if (!gameManager.IsObjectSelected)
+            {
+                if (!gameManager.IsStone(cellPos.Value))
+                    return;
+                Board.Controls.Add(new SelectedItemShower(),cellPos.Value.X,cellPos.Value.Y);
+                gameManager.IsObjectSelected = true;
+                gameManager.SelectedPosition = cellPos.Value;
+            }
+            else
+            {
+                Board.Controls.Clear();
+                gameManager.MoveStone(gameManager.SelectedPosition, cellPos.Value);
+                gameManager.IsObjectSelected = false;
+            }
+        }
     }
 }
