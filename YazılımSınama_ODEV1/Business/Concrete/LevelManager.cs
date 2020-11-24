@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using YazılımSınama_ODEV1.Business.Static;
 using YazılımSınama_ODEV1.Entities;
@@ -13,7 +14,6 @@ namespace YazılımSınama_ODEV1.Business.Concrete
         public MapObject[,] GenerateRandomLevel(int stoneCount, int height, int width)
         {
 
-
             MapObject[,] mapArray = new MapObject[height,width];
 
             Random rnd = new Random();
@@ -24,23 +24,12 @@ namespace YazılımSınama_ODEV1.Business.Concrete
                     mapArray[i, j] = new MapObject();
                 }
             }
-           
-            mapArray[rnd.Next(0, mapArray.GetLength(0)), rnd.Next(0, mapArray.GetLength(1))].MapObjectType = MapObjectType.MainStone;
 
-            for (int i = 0; i < stoneCount; i++)
-            {
-                int rndX = rnd.Next(0, mapArray.GetLength(0));
-                int rndY = rnd.Next(0, mapArray.GetLength(1));
-                if (mapArray[rndY, rndX].MapObjectType == MapObjectType.Empty)
-                {
-                    mapArray[rndY, rndX].MapObjectType = MapObjectType.Stone;
-                    mapArray[rndY, rndX].ShortestDistanceToMainStone = rnd.Next(5, 10);
-                }
-                else
-                    i--;
-            }
+            var mainStonePos = new Point(rnd.Next(0, mapArray.GetLength(1)), rnd.Next(0, mapArray.GetLength(0)));
+            mapArray[mainStonePos.Y,mainStonePos.X].MapObjectType = MapObjectType.MainStone;
 
-            int rndBlockCount = rnd.Next(3, 8);
+
+            int rndBlockCount = rnd.Next(7, 11);
 
             for (int i = 0; i < rndBlockCount; i++)
             {
@@ -52,10 +41,25 @@ namespace YazılımSınama_ODEV1.Business.Concrete
                     i--;
             }
 
+            for (int i = 0; i < stoneCount; i++)
+            {
+                int rndX = rnd.Next(0, mapArray.GetLength(0));
+                int rndY = rnd.Next(0, mapArray.GetLength(1));
+                if (mapArray[rndY, rndX].MapObjectType == MapObjectType.Empty)
+                {
+                    PathFinding pathFinding = new PathFinding(mapArray);
+                    if(pathFinding.FindShortestDistance(new Point(rndX,rndY),mainStonePos) == 0)
+                    {
+                        i--;
+                        continue;
+                    }
+                    mapArray[rndY, rndX].MapObjectType = MapObjectType.Stone;
+                }
+                else
+                    i--;
+            }
             return  mapArray;
         }
-
-
 
 
     }

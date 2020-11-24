@@ -18,37 +18,19 @@ namespace YazılımSınama_ODEV1
         public mainForm()
         {
             InitializeComponent();
-            gameManager = new GameManager(3, 8, Board);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void mainForm_Load(object sender, EventArgs e)
         {
             SetDoubleBuffered(Board);
+            gameManager = new GameManager(7, 8, Board, this);
+            Console.WriteLine("test");
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            gameManager = new GameManager(3, 8, Board);
+            gameManager = new GameManager(7, 8, Board,this);
         }
-
-
-
-        private void Board_MouseClick(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        public static void SetDoubleBuffered(Control c)
-        {
-            if (SystemInformation.TerminalServerSession)
-                return;
-            System.Reflection.PropertyInfo aProp = typeof(Control).GetProperty("DoubleBuffered",
-            System.Reflection.BindingFlags.NonPublic |
-            System.Reflection.BindingFlags.Instance);
-            aProp.SetValue(c, true, null);
-        }
-
-
 
 
         Point? GetRowColIndex(TableLayoutPanel tlp, Point point)
@@ -94,6 +76,22 @@ namespace YazılımSınama_ODEV1
                 gameManager.MoveStone(gameManager.SelectedPosition, cellPos.Value);
                 gameManager.IsObjectSelected = false;
             }
+        }
+
+        public static void SetDoubleBuffered(Control c)
+        {
+            if (SystemInformation.TerminalServerSession)
+                return;
+            System.Reflection.PropertyInfo aProp = typeof(Control).GetProperty("DoubleBuffered",
+            System.Reflection.BindingFlags.NonPublic |
+            System.Reflection.BindingFlags.Instance);
+            aProp.SetValue(c, true, null);
+        }
+
+
+        public void UpdateLevelText()
+        {
+            this.lblLevel.Text = "LEVEL: " + gameManager.Level.ToString();
         }
     }
 }

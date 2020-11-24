@@ -9,6 +9,7 @@ namespace YazılımSınama_ODEV1.Entities
     {
         public int MapObjectType { get; set; } = 0;
         public int? ShortestDistanceToMainStone { get; set; }
+        public PathNode Node { get; set; }
 
     }
 }
