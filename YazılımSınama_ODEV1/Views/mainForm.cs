@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using YazılımSınama_ODEV1.Business.Concrete;
 using YazılımSınama_ODEV1.CustomComponents;
+using YazılımSınama_ODEV1.Entities;
 
 namespace YazılımSınama_ODEV1
 {
@@ -23,16 +24,10 @@ namespace YazılımSınama_ODEV1
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            gameManager = new GameManager(7, 8, Board, this);
-            Console.WriteLine("test");
+            gameManager = new GameManager(7, 8,8 ,Board, this);
             SetDoubleBuffered(Board);
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            gameManager.Dispose();
-            gameManager = new GameManager(7, 8, Board,this);
-        }
 
 
         Point? GetRowColIndex(TableLayoutPanel tlp, Point point)
@@ -98,6 +93,24 @@ namespace YazılımSınama_ODEV1
         public void UpdateLevelText()
         {
             this.lblLevel.Text = "LEVEL: " + gameManager.Level.ToString();
+        }
+
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            btnRestart.Enabled = false;
+            gameManager.Dispose();
+            gameManager = new GameManager(7, 8, 8, Board, this);
+            btnRestart.Enabled = true;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            gameManager.SetGameState(Business.Static.GameStates.Won);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            gameManager.SetGameState(Business.Static.GameStates.GameOver);
         }
     }
 }

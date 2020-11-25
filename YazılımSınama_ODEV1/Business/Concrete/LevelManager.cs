@@ -13,7 +13,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
         public int Width { get;}
         private  PathFinding pathFinding;
         private MapObject[,] mapArray = null;
-        public MapObject[,] GenerateRandomLevel(int stoneCount, int height, int width)
+        public MapObject[,] GenerateRandomLevel(int stoneCount, int height, int width, int blockCount)
         {
             mapArray = new MapObject[height,width];
 
@@ -31,7 +31,8 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             mapArray[mainStonePos.Y,mainStonePos.X].MapObjectType = MapObjectType.MainStone;
 
 
-            int rndBlockCount = rnd.Next(7, 11);
+            int rndBlockCount = blockCount;
+
 
             for (int i = 0; i < rndBlockCount; i++)
             {

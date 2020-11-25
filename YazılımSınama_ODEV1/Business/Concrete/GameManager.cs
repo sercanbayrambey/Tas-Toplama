@@ -17,6 +17,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
         private mainForm mainForm;
         private int levelSize;
         private int stoneCount;
+        private int blockCount;
         public int Level { get; set; }
         public bool IsObjectSelected { get; set; }
         public Point SelectedPosition { get; set; }
@@ -30,8 +31,9 @@ namespace YazılımSınama_ODEV1.Business.Concrete
         /// <summary>
         /// Initiliazes the game, generates level, and draws map.
         /// </summary>
-        public GameManager(int stoneCount, int levelSize, TableLayoutPanel tableLayout, mainForm mainForm)
+        public GameManager(int stoneCount, int levelSize, int blockCount,TableLayoutPanel tableLayout, mainForm mainForm)
         {
+            this.blockCount = blockCount;
             this.stoneCount = stoneCount;
             this.mainForm = mainForm;
             this.levelSize = levelSize;
@@ -47,7 +49,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             if(MapArray!=null)
                 Array.Clear(MapArray, 0, MapArray.Length);
             GC.Collect();
-            MapArray = levelManager.GenerateRandomLevel(stoneCount, levelSize, levelSize);
+            MapArray = levelManager.GenerateRandomLevel(stoneCount, levelSize, levelSize, blockCount);
             mapManager = new MapManager(MapArray, tableLayout);
             MainStonePosition = mapManager.GetMainStonePos();
             this.SetShortestDistances();
@@ -140,7 +142,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             return ((oldPosition.X == newPosition.X && oldPosition.Y != newPosition.Y) || (oldPosition.X != newPosition.X && oldPosition.Y == newPosition.Y));
         }
 
-        private void SetGameState(GameStates gameState)
+        public void SetGameState(GameStates gameState)
         {
             GameState = gameState;
 
@@ -153,8 +155,9 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             {
                 case (GameStates.GameOver):
                     var result = MessageBox.Show("Game over, click OK for start new game!", "Game Over", MessageBoxButtons.OKCancel, MessageBoxIcon.Exclamation);
+                    this.stoneCount = this.stoneCount - (this.Level-1);
+                    this.blockCount = this.blockCount- (this.Level - 1)*2;
                     this.Level = 1;
-                    this.stoneCount +=(this.Level+6 - this.stoneCount);
                     this.mainForm.lblLevel.Text = "LEVEL: " + this.Level.ToString();
                     if (result == DialogResult.OK)
                         Init();
@@ -163,8 +166,9 @@ namespace YazılımSınama_ODEV1.Business.Concrete
                     var wonResult = MessageBox.Show("You won, click OK for start next level!", "Game Over", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                     if (wonResult == DialogResult.OK)
                     {
-                        this.stoneCount++;
                         this.Level++;
+                        this.stoneCount+= this.Level<=7 ? 1 : 0;
+                        this.blockCount += this.Level <= 6 ? 2 : 0;
                         this.mainForm.lblLevel.Text = "LEVEL: " + this.Level.ToString();
                         Init();
                     }
