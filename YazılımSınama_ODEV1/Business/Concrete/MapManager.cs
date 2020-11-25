@@ -7,7 +7,7 @@ using YazılımSınama_ODEV1.Entities;
 
 namespace YazılımSınama_ODEV1.Business.Concrete
 {
-    public class MapManager
+    public class MapManager 
     {
         public int Height { get; }
         public int Width { get; }
@@ -33,7 +33,9 @@ namespace YazılımSınama_ODEV1.Business.Concrete
 
         private void Board_CellPaint(object sender, TableLayoutCellPaintEventArgs e)
         {
-
+            if (_mapArray == null || _mapArray[0,0]==null)
+                return;
+           
             if ((e.Column + e.Row) % 2 == 1)
                 e.Graphics.FillRectangle(Brushes.Black, e.CellBounds);
             else
@@ -42,7 +44,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             var column = e.Column;
             var row = e.Row;
             int mapObjectValue = _mapArray[row, column].MapObjectType;
-
+        
 
             switch (mapObjectValue)
             {
@@ -100,5 +102,28 @@ namespace YazılımSınama_ODEV1.Business.Concrete
             return counter;
         }
 
+   /*     bool disposed;
+   
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    
+                }
+            }
+            //dispose unmanaged resources
+            disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }*/
+
+
     }
+
 }

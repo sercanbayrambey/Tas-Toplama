@@ -15,6 +15,7 @@ namespace YazılımSınama_ODEV1
     public partial class mainForm : Form
     {
         private GameManager gameManager;
+        private SelectedItemShower selectedButton = new SelectedItemShower();
         public mainForm()
         {
             InitializeComponent();
@@ -22,13 +23,14 @@ namespace YazılımSınama_ODEV1
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            SetDoubleBuffered(Board);
             gameManager = new GameManager(7, 8, Board, this);
             Console.WriteLine("test");
+            SetDoubleBuffered(Board);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            gameManager.Dispose();
             gameManager = new GameManager(7, 8, Board,this);
         }
 
@@ -66,12 +68,16 @@ namespace YazılımSınama_ODEV1
             {
                 if (!gameManager.IsStone(cellPos.Value))
                     return;
-                Board.Controls.Add(new SelectedItemShower(),cellPos.Value.X,cellPos.Value.Y);
+                gameManager.IsObjectSelected = true;
+                selectedButton = new SelectedItemShower();
+                Board.Controls.Add(selectedButton, cellPos.Value.X, cellPos.Value.Y);
                 gameManager.IsObjectSelected = true;
                 gameManager.SelectedPosition = cellPos.Value;
+                GC.Collect();
             }
             else
             {
+                gameManager.IsObjectSelected = false;
                 Board.Controls.Clear();
                 gameManager.MoveStone(gameManager.SelectedPosition, cellPos.Value);
                 gameManager.IsObjectSelected = false;

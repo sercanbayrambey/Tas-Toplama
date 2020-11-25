@@ -11,7 +11,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
     {
         private const int MOVE_COST = 10;
 
-        private readonly MapObject[,] mapArray;
+        private readonly MapObject[,] mapArray = null;
         private List<PathNode> openList;
         private List<PathNode> closedList;
 
@@ -151,5 +151,26 @@ namespace YazılımSınama_ODEV1.Business.Concrete
 
         }
 
+      /*  bool disposed;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    GC.Collect();
+                }
+            }
+            //dispose unmanaged resources
+            disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+*/
     }
 }

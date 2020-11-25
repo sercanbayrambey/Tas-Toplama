@@ -8,8 +8,8 @@ using YazılımSınama_ODEV1.Entities;
 
 namespace YazılımSınama_ODEV1.Business.Concrete
 {
-    public class GameManager
-    {
+    public class GameManager : IDisposable
+    { 
         public MapObject[,] MapArray { get; set; }
         private MapManager mapManager;
         private LevelManager levelManager;
@@ -44,6 +44,9 @@ namespace YazılımSınama_ODEV1.Business.Concrete
         {
             this.SetGameState(GameStates.Started);
             levelManager = new LevelManager();
+            if(MapArray!=null)
+                Array.Clear(MapArray, 0, MapArray.Length);
+            GC.Collect();
             MapArray = levelManager.GenerateRandomLevel(stoneCount, levelSize, levelSize);
             mapManager = new MapManager(MapArray, tableLayout);
             MainStonePosition = mapManager.GetMainStonePos();
@@ -171,6 +174,30 @@ namespace YazılımSınama_ODEV1.Business.Concrete
                     break;
             }
 
+        }
+
+        bool disposed;
+      
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    mapManager = null;
+                    levelManager = null;
+                    Array.Clear(MapArray, 0, MapArray.Length);
+                    GC.Collect();
+                }
+            }
+            //dispose unmanaged resources
+            disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
 

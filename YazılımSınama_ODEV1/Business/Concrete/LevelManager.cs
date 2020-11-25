@@ -7,21 +7,23 @@ using YazılımSınama_ODEV1.Entities;
 
 namespace YazılımSınama_ODEV1.Business.Concrete
 {
-    public class LevelManager
+    public class LevelManager 
     {
         public int Height { get;}
         public int Width { get;}
+        private  PathFinding pathFinding;
+        private MapObject[,] mapArray = null;
         public MapObject[,] GenerateRandomLevel(int stoneCount, int height, int width)
         {
-
-            MapObject[,] mapArray = new MapObject[height,width];
+            mapArray = new MapObject[height,width];
 
             Random rnd = new Random();
             for(int i = 0; i < mapArray.GetLength(0); i++)
             {
                 for (int j = 0; j < mapArray.GetLength(1); j++)
                 {
-                    mapArray[i, j] = new MapObject();
+                    var mapObject = new MapObject();
+                    mapArray[i, j] = mapObject;
                 }
             }
 
@@ -47,7 +49,7 @@ namespace YazılımSınama_ODEV1.Business.Concrete
                 int rndY = rnd.Next(0, mapArray.GetLength(1));
                 if (mapArray[rndY, rndX].MapObjectType == MapObjectType.Empty)
                 {
-                    PathFinding pathFinding = new PathFinding(mapArray);
+                    pathFinding = new PathFinding(mapArray);
                     if(pathFinding.FindShortestDistance(new Point(rndX,rndY),mainStonePos) == 0)
                     {
                         i--;
@@ -62,5 +64,30 @@ namespace YazılımSınama_ODEV1.Business.Concrete
         }
 
 
+     
+/*
+        bool disposed;
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    pathFinding.Dispose();
+                }
+            }
+            //dispose unmanaged resources
+            disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }*/
+
+
     }
+
+
 }

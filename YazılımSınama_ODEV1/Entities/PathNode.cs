@@ -4,7 +4,7 @@ using System.Text;
 
 namespace YazılımSınama_ODEV1.Entities
 {
-    public class PathNode
+    public class PathNode 
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -28,5 +28,7 @@ namespace YazılımSınama_ODEV1.Entities
         {
             FCost = GCost + HCost;
         }
+
+       
     }
 }
