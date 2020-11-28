@@ -31,8 +31,6 @@
             this.Board = new System.Windows.Forms.TableLayoutPanel();
             this.btnRestart = new System.Windows.Forms.Button();
             this.lblLevel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Board
@@ -88,33 +86,11 @@
             this.lblLevel.TabIndex = 3;
             this.lblLevel.Text = "LEVEL: 1";
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(1131, 185);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(1131, 237);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 5;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1598, 688);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.lblLevel);
             this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.Board);
@@ -133,8 +109,6 @@
         private System.Windows.Forms.TableLayoutPanel Board;
         private System.Windows.Forms.Button btnRestart;
         public System.Windows.Forms.Label lblLevel;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
     }
 }
 
